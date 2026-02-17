@@ -1,13 +1,16 @@
 #include <stdio.h>
 
 /**
- * print-array - print first n elements of array a.
+ * print_array - print first n elements of array a.
  * @a: array to be printed.
  * @n: number of elements to be printed.
  */
 void print_array(int *a, int n)
 {
 	int i;
+
+	if (n < 1)
+		return;
 
 	for (i = 0; i < n - 1; i++)
 		printf("%d, ", a[i]);
