@@ -30,10 +30,10 @@ int _atoi(char *s)
 
 	while (j > i)
 	{
-		result += (s[j - 1] - '0') * pow;
+		result += sign * (s[j - 1] - '0') * pow;
 		if (--j > i)
 			pow *= 10;
 	}
 
-	return (sign * result);
+	return (result);
 }
