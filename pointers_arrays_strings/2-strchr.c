@@ -1,3 +1,5 @@
+#include <stddef.h>
+
 /**
  * _strchr - find pointer to char c in s.
  * @s: string to be checked.
@@ -11,7 +13,8 @@ char *_strchr(char *s, char c)
 	int count = 0;
 
 	while (s[count])
-		count++;
+		if (s[count++] == c)
+			return (s + count - 1);
 
-	return (count);
+	return (NULL);
 }
