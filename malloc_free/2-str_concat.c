@@ -1,5 +1,7 @@
 #include <stdlib.h>
-#include <string.h>
+
+size_t _strlen(char *s);
+
 /**
  * str_concat - concatenate s1 and s2.
  * @s1: string to be concatenated.
@@ -12,9 +14,8 @@ char *str_concat(char *s1, char *s2)
 char *result;
 size_t i, len1 = 0, len2 = 0;
 
-len1 = s1 ? strlen(s1) : len1;
-len2 = s2 ? strlen(s2) : len2;
-
+len1 = _strlen(s1);
+len2 = _strlen(s2);
 result = malloc(len1 + len2 + 1);
 
 if (result == NULL)
@@ -27,4 +28,19 @@ for (i = 0; i < len2; i++)
 result[len1 + len2] = '\0';
 
 return (result);
+}
+
+/**
+ * _strlen - find length of s.
+ * @s: string to be measured.
+ *
+ * Return: length if string is valid, otherwise.
+ */
+size_t _strlen(char *s)
+{
+	int count = 0;
+
+	while (s && s[count])
+		count++;
+	return (count);
 }
