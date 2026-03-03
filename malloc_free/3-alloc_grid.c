@@ -17,6 +17,9 @@ if (w <= 0 || h <= 0)
 	return (NULL);
 
 result = malloc(h * sizeof(*result));
+if (!result)
+	return (NULL);
+
 for (i = 0; i < h; i++)
 {
 	result[i] = malloc(w * sizeof(*(result[i])));
