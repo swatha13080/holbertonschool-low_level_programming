@@ -21,7 +21,6 @@ list_t *add_node(list_t **head, const char *str)
 		return (NULL);
 	}
 
-	printf("no issue so far");
 	if (!str)
 	{
 		first->str = NULL;
