@@ -67,6 +67,7 @@ dlistint_t *_place_last(dlistint_t **h, dlistint_t *last)
 	}
 	else
 	{
+		last->prev = *h;
 		(*h)->next = last;
 		return (last);
 	}
