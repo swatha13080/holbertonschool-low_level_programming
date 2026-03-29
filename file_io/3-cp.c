@@ -17,6 +17,7 @@ int main(int ac, char **av)
 		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		exit(97);
 	}
+	av[0] = av[0];
 	return (0);
 }
 
