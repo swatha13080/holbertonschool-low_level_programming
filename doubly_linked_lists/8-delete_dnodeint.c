@@ -19,12 +19,15 @@ int delete_dnodeint_at_index(dlistint_t **h, unsigned int idx)
 
 	if (!idx)
 	{
+		free(*h);
 		if (prev)
 			prev->next = next;
+		else
+			*h = next;
+
 		if (next)
 			next->prev = prev;
-		free(*h);
 		return (1);
 	}
-	return (delete_dnodeint_at_index(&next, idx - 1));
+	return (delete_dnodeint_at_index(&((*h)->next), idx - 1));
 }
