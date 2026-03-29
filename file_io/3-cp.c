@@ -1,5 +1,8 @@
 #include "main.h"
 
+void handle_rerr(const char *rfile);
+void handle_werr(const char *wfile);
+
 /**
  * main - run the code
  * @ac: argc
@@ -13,7 +16,7 @@ int main(int ac, char **av)
 
 	if (ac != 3)
 	{
-		dprintf(STDERR_FILENO, "Usage: cp file_from file_to");
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		exit(97);
 	}
 	res = readf_writef(av[1], av[2]);
@@ -36,36 +39,47 @@ int readf_writef(const char *rfile, const char *wfile)
 
 	fdr = open(rfile, O_RDONLY);
 	if (fdr == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", rfile);
-		exit(98);
-	}
-
+		handle_rerr(rfile);
 	fdw = open(wfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (fdw == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", wfile);
-		exit(99);
-	}
+		handle_werr(wfile);
 	rbytes = read(fdr, buffer, 1024);
+	if (rbytes == -1)
+		handle_rerr(rfile);
 	while (rbytes > 0)
 	{
 		wbytes = write(fdw, buffer, rbytes);
 		if (wbytes == -1)
-		{
-			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", wfile);
-			exit(99);
-		}
-
+			handle_werr(wfile);
 		rbytes = read(fdr, buffer, 1024);
+		if (rbytes == -1)
+			handle_rerr(rfile);
 	}
 	cr = close(fdr);
 	cw = close(fdw);
-	if (cr)
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", cr);
-	if (cw)
-		dprintf(STDERR_FILENO, "Error: Can't clode fd %d\n", cw);
-	if (cr || cw)
+	if (cr == -1)
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fdr);
+	if (cw == -1)
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fdw);
+	if (cr == -1 || cw == -1)
 		exit(100);
 	return (1);
+}
+
+/**
+ * handle_rerr - exit with 98
+ */
+void handle_rerr(const char *rfile)
+{
+	dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", rfile);
+	exit(98);
+}
+
+/**
+ * handle_werr - exit with 97
+ */
+void handle_werr(const char *wfile)
+{
+	dprintf(STDERR_FILENO, "Error: Can't write to %s\n", wfile);
+	exit(99);
 }
