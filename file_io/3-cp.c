@@ -31,7 +31,7 @@ int main(int ac, char **av)
 int readf_writef(const char *rfile, const char *wfile)
 {
 	int fdr, fdw, cr, cw;
-	ssize_t rbytes;
+	ssize_t rbytes, wbytes;
 	char buffer[1024];
 
 	fdr = open(rfile, O_RDONLY);
@@ -50,8 +50,8 @@ int readf_writef(const char *rfile, const char *wfile)
 	rbytes = read(fdr, buffer, 1024);
 	while (rbytes > 0)
 	{
-		write(fdw, buffer, rbytes);
-		if (write == -1)
+		wbytes = write(fdw, buffer, rbytes);
+		if (wbytes == -1)
 		{
 			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", wfile);
 			exit(99);
