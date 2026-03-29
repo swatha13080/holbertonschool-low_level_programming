@@ -30,7 +30,7 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	}
 
 	rbytes = read(fd, buffer, letters);
-	if (rbytes < 0 || (size_t)rbytes != letters)
+	if (rbytes < 0)
 	{
 		close(fd);
 		free(buffer);
@@ -38,7 +38,7 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	}
 
 	wbytes = write(1, buffer, rbytes);
-	if (wbytes < 0 || (size_t)wbytes != letters)
+	if (wbytes < 0)
 	{
 		close(fd);
 		free(buffer);
