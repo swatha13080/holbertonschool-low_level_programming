@@ -20,7 +20,6 @@ int main(int ac, char **av)
 		exit(97);
 	}
 	res = readf_writef(av[1], av[2]);
-	printf("-> %i)\n", res);
 	return (0);
 }
 
