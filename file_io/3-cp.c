@@ -52,6 +52,12 @@ int readf_writef(const char *rfile, const char *wfile)
 	while (rbytes > 0)
 	{
 		write(fdw, buffer, rbytes);
+		if (write == -1)
+		{
+			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", wfile);
+			exit(99);
+		}
+
 		rbytes = read(fdr, buffer, 1024);
 	}
 
