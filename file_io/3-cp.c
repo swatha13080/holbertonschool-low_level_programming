@@ -47,7 +47,6 @@ int readf_writef(const char *rfile, const char *wfile)
 		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", wfile);
 		exit(99);
 	}
-
 	rbytes = read(fdr, buffer, 1024);
 	while (rbytes > 0)
 	{
@@ -60,10 +59,8 @@ int readf_writef(const char *rfile, const char *wfile)
 
 		rbytes = read(fdr, buffer, 1024);
 	}
-
 	cr = close(fdr);
 	cw = close(fdw);
-
 	if (cr)
 		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", cr);
 	if (cw)
