@@ -65,6 +65,7 @@ int readf_writef(const char *rfile, const char *wfile)
 
 /**
  * handle_rerr - exit with 98
+ * @rfile: rfile
  */
 void handle_rerr(const char *rfile)
 {
@@ -74,6 +75,7 @@ void handle_rerr(const char *rfile)
 
 /**
  * handle_werr - exit with 97
+ * @wfile: wfile
  */
 void handle_werr(const char *wfile)
 {
