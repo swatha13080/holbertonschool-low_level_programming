@@ -21,21 +21,30 @@ dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 	item = _create_node(n, NULL, NULL);
 	if (!item)
 		return (NULL);
+
 	if (!idx && !*h)
-		;
+		*h = item;
 	else if (!idx)
+	{
 		item->next = *h;
+		(*h)->prev = item;
+	}
 	else
 	{
 		prev = _find_node_at_index(idx - 1, *h);
 		if (!prev)
+		{
+			free(item);
 			item = NULL;
+		}
 		else
 		{
 			next = prev->next;
 			prev->next = item;
 			item->next = next;
 			item->prev = prev;
+			if (next)
+				next->prev = item;
 		}
 	}
 	return (item);
