@@ -12,14 +12,11 @@ void handle_werr(const char *wfile);
  */
 int main(int ac, char **av)
 {
-	int res;
-
 	if (ac != 3)
 	{
 		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		exit(97);
 	}
-	res = readf_writef(av[1], av[2]);
 	return (0);
 }
 
