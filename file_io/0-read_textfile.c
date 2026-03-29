@@ -30,22 +30,22 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	}
 
 	rbytes = read(fd, buffer, letters);
-	if (rbytes < 0)
+	if (rbytes == -1)
 	{
-		close(fd);
 		free(buffer);
+		close(fd);
 		return (0);
 	}
 
-	wbytes = write(1, buffer, rbytes);
-	if (wbytes < 0 || wbytes != rbytes)
+	wbytes = write(STDOUT_FILENO, buffer, rbytes);
+	if (wbytes == -1 || wbytes != rbytes)
 	{
-		close(fd);
 		free(buffer);
+		close(fd);
 		return (wbytes);
 	}
 
-	close(fd);
 	free(buffer);
+	close(fd);
 	return (wbytes);
 }
