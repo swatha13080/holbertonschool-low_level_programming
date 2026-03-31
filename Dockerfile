@@ -3,13 +3,13 @@ FROM ubuntu:22.04
 # Avoid interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install essential packages
 RUN apt-get update && apt-get install -y \
     build-essential \
     gcc \
     git \
     valgrind \
     gdb \
+    vim \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone and install Betty
