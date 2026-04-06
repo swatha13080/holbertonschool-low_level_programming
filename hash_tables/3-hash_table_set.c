@@ -15,14 +15,24 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 	unsigned long int index;
 	hash_node_t *node;
 
-	if (!key || !*key || !ht->size)
+	if (!key || !*key || !ht->size || !value)
 		return (0);
 
 	index = key_index((const unsigned char *)key, ht->size);
-	node = create_node(key, value, NULL);
+	node = ht->array[index];
+	while (node)
+	{
+		if (strcmp(node->key, key))
+		{
+			free(node->value);
+			node->value = strdup(value);
+			if (!node->value)
+				return (0);
+			return (1);
+		}
+		node = node->next;
+	}
 
-	if (!node)
-		return (0);
 	insert_node(node, ht, index);
 	return (1);
 }
