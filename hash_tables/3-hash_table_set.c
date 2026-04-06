@@ -1,6 +1,6 @@
 #include "hash_tables.h"
 hash_node_t *create_node(const char *key, const char *val, hash_node_t *next);
-int insert_node(hash_node_t *node, hash_table_t *ht, unsigned long int index);
+void insert_node(hash_node_t *node, hash_table_t *ht, unsigned long int index);
 
 /**
  * hash_table_set - add element to hash table
@@ -23,8 +23,8 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 
 	if (!node)
 		return (0);
-
-	return (insert_node(node, ht, index));
+	insert_node(node, ht, index);
+	return (1);
 }
 
 /**
@@ -66,28 +66,18 @@ hash_node_t *create_node(const char *key, const char *value, hash_node_t *next)
  *
  * Return: 1 if successful, 0 otherwise
  */
-int insert_node(hash_node_t *node, hash_table_t *ht, unsigned long int index)
+void insert_node(hash_node_t *node, hash_table_t *ht, unsigned long int index)
 {
-	hash_node_t *last;
+	hash_node_t *first;
 
 	if (!ht->array[index])
 	{
 		ht->array[index] = node;
-		return (1);
 	}
 	else
 	{
-		last = ht->array[index];
-		while (last)
-		{
-			if (!last->next)
-			{
-				last->next = node;
-				return (1);
-			}
-			else
-				last = last->next;
-		}
+		first = ht->array[index];
+		node->next = first;
+		ht->array[index] = node;
 	}
-	return (0);
 }
