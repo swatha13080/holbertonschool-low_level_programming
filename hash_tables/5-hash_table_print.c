@@ -1,6 +1,6 @@
 #include "hash_tables.h"
 
-void print_node_chain(hash_node_t *node, char separator);
+void print_node_chain(hash_node_t *node, char *sep);
 
 /**
  * hash_table_print - print hash table
@@ -8,7 +8,7 @@ void print_node_chain(hash_node_t *node, char separator);
  */
 void hash_table_print(const hash_table_t *ht)
 {
-	char separator = 0;
+	char *sep = "";
 	size_t i = 0;
 
 	if (!ht || !ht->array)
@@ -18,8 +18,8 @@ void hash_table_print(const hash_table_t *ht)
 	{
 		if (ht->array[i])
 		{
-			print_node_chain(ht->array[i], separator);
-			separator = ',';
+			print_node_chain(ht->array[i], sep);
+			sep = ", ";
 		}
 	}
 	printf("}\n");
@@ -28,15 +28,14 @@ void hash_table_print(const hash_table_t *ht)
 /**
  * print_node_chain - print key values of node chain
  * @node: starting node
- * @separator: ',' if not first, '\0' if first item to be printed
+ * @sep: separator ", " if not first, "" if first item to be printed
  */
-void print_node_chain(hash_node_t *node, char separator)
+void print_node_chain(hash_node_t *node, char *sep)
 {
 	while (node && node->key && node->value)
 	{
-		putchar(separator);
-		printf("'%s': '%s'", node->key, node->value);
-		separator = ',';
+		printf("%s'%s': '%s'", sep, node->key, node->value);
+		sep = ", ";
 		node = node->next;
 	}
 }
