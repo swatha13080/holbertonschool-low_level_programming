@@ -1,0 +1,93 @@
+#include "hash_tables.h"
+hash_node_t *create_node(const char *key, const char *val, hash_node_t *next);
+int insert_node(hash_node_t *node, hash_table_t *ht, unsigned long int index);
+
+/**
+ * hash_table_set - add element to hash table
+ * @ht: table to modify
+ * @key: key record to modify
+ * @value: value to add for the key
+ *
+ * Return: 1 upon success, 0 upon failure
+ */
+int hash_table_set(hash_table_t *ht, const char *key, const char *value)
+{
+	unsigned long int index;
+	hash_node_t *node;
+
+	if (!key || !*key || !ht->size)
+		return (0);
+
+	index = key_index((const unsigned char *)key, ht->size);
+	node = create_node(key, value, NULL);
+
+	if (!node)
+		return (0);
+
+	return (insert_node(node, ht, index));
+}
+
+/**
+ * create_node - create node
+ * @key: key in the hash table
+ * @value: value of the node
+ * @next: a pointer to the next node
+ *
+ * Return: a pointer to the created node
+ */
+hash_node_t *create_node(const char *key, const char *value, hash_node_t *next)
+{
+	hash_node_t *result = malloc(sizeof(hash_node_t));
+
+	if (!result)
+		return (NULL);
+	result->key = strdup(key);
+	if (!result->key)
+	{
+		free(result);
+		return (NULL);
+	}
+	result->value = strdup(value);
+	if (!result->value)
+	{
+		free(result->key);
+		free(result);
+		return (NULL);
+	}
+	result->next = next;
+	return (result);
+}
+
+/**
+ * insert_node - inserts node in hash table
+ * @node: node to insert
+ * @ht: hash table to insert node
+ * @index: inext in the array
+ *
+ * Return: 1 if successful, 0 otherwise
+ */
+int insert_node(hash_node_t *node, hash_table_t *ht, unsigned long int index)
+{
+	hash_node_t *last;
+
+	if (!ht->array[index])
+	{
+		ht->array[index] = node;
+		return (1);
+	}
+	else
+	{
+		last = ht->array[index];
+		while (last)
+		{
+			if (!last->next)
+			{
+				last->next = node;
+				return (1);
+			}
+			else
+				last = last->next;
+		}
+	}
+	return (0);
+}
